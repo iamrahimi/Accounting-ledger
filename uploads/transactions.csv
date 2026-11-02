@@ -1,9 +1,11 @@
-date|time|description|vendor|amount | type
-2026-10-30|08:15:00|Coffee|Starbucks|-5.75| deposit
-2026-10-30|12:40:00|Lunch|Cafe Rio|-14.25| payments
-2026-10-31|09:00:00|Paycheck|Employer|1250.00|payments
-2026-11-01|16:20:00|Groceries|Safeway|-63.48|payments
-2026-11-02|10:05:00|Refund|Target|18.99| payments
-2026-11-02|13:23:08|Invoice 1001 paid||1500.0|payment
-2026-11-02|13:27:14|i am testing|this is deposit|89.2|deposit
-2026-11-02|13:27:34|this is payment testing|payment for testing vendor |390.0|payment
+date|time|description|vendor|amount
+2026-10-30|08:15:00|Coffee|Starbucks|-5.75
+2026-10-30|12:40:00|Lunch|Cafe Rio|-14.25
+2026-10-31|09:00:00|Paycheck|Employer|1250.00
+2026-11-01|16:20:00|Groceries|Safeway|-63.48
+2026-11-02|10:05:00|Refund|Target|18.99
+2026-11-02|13:23:08|Invoice 1001 paid||1500.0
+2026-11-02|13:27:14|i am testing|this is deposit|89.2
+2026-11-02|13:27:34|this is payment testing|payment for testing vendor |390.0
+2026-11-02|13:41:24|payment that should workd|testing |-3894.0
+2026-11-02|13:41:56|despoit|teting|902.3

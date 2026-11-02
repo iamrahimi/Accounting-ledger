@@ -8,7 +8,7 @@ import java.util.*;
 
 public class Main {
     private static final Scanner input = new Scanner(System.in);
-    static final String RESET = "\u001B[0m";
+    static final String RESET = "\u001B[0m"; //
     static final String RED = "\u001B[31m";
     static final String GREEN = "\u001B[32m";
     static final String BLUE = "\u001B[34m";
@@ -44,6 +44,15 @@ public class Main {
             } else if (choice.equalsIgnoreCase("P")) {
                 loader();
                 addTransaction("payment");
+            } else if (choice.equalsIgnoreCase("L")) {
+                loader();
+                openLedger();
+            } else if (choice.equalsIgnoreCase("X")) {
+                System.out.println("Thank you for using Accounting Ledger Application");
+                System.out.println("Good bye");
+            } else {
+                System.out.println("Wrong choice, invalid input");
+                homeScreen();
             }
         }catch (InputMismatchException inputMismatchException){
             System.out.println("Invalid input. Try again.");
@@ -73,12 +82,16 @@ public class Main {
         System.out.println("Please enter the amount:");
         double amount = Double.parseDouble(input.nextLine());
 
+        if(type.equalsIgnoreCase("payment")) {
+            amount = - amount;
+        }
+
         try {
             if(!description.isEmpty() || !vendor.isEmpty() || amount > 0){
                 // bw = BufferedWriter
                 BufferedWriter bw = new BufferedWriter(new FileWriter(fileSrc, true));
 
-                bw.write(date + "|" + time + "|" + description + "|" + vendor + "|" + amount + "|" + type);
+                bw.write(date + "|" + time + "|" + description + "|" + vendor + "|" + amount);
                 bw.newLine();
 
                 System.out.println("Transaction successfully.\n");
@@ -94,11 +107,22 @@ public class Main {
         homeScreen();
     }
 
-    public static void makePayment() throws IOException {
-        Date now = new Date();
-        String date = new SimpleDateFormat("yyyy-MM-dd").format(now);
-
-
+    public static void openLedger() throws IOException {
+        System.out.println("============================== LEDGER ======================================================");
+        System.out.printf(
+                "%-10s %-10s %-8s %-20s %-14s %14s%n",
+                "Type",
+                "Date",
+                "Time",
+                "Description",
+                "Vendor",
+                "Amount"
+        );
+        System.out.println("--------------------------------------------------------------------------------------------");
+        for(Transactions transaction : transactionsList){
+            System.out.println(transaction.toString());
+        }
+        System.out.println("--------------------------------------------------------------------------------------------");
     }
 
 
@@ -117,14 +141,12 @@ public class Main {
                         row[1], // Time
                         row[2], // Description
                         row[3], // Vendor
-                        Double.parseDouble(row[4]), // Amount
-                        row[5] // type payments
+                        Double.parseDouble(row[4]) // Amount
                 );
 
                 transactionsList.add(transactionRow);
             }
 
-            System.out.println("total" + transactionsList.size());
             br.close();
         }catch (IOException e) {
             System.out.println(e.getMessage());
