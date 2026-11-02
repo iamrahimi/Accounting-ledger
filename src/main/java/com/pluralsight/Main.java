@@ -4,7 +4,10 @@ import java.io.*;
 import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Year;
+import java.time.YearMonth;
 import java.util.*;
 
 public class Main {
@@ -25,11 +28,9 @@ public class Main {
 
     public static void homeScreen() {
         transactionsList.clear();
-        readTransaction();
+        readTransaction(); // Copy all the transaction data to arrayList to operate with
+        screenTitle("HOME SCREEN"); // Only for title of page
 
-        System.out.println("================================");
-        screenTitle("HOME SCREEN");
-        System.out.println("================================");
         System.out.println(GREEN +"    [D] — Add Deposit" + RESET);
         System.out.println(GREEN +"    [P] — Make Payment (Debit)" + RESET);
         System.out.println(GREEN +"    [L] — Open the Ledger" + RESET);
@@ -109,9 +110,9 @@ public class Main {
     }
 
     public static void openLedger() throws IOException {
-        System.out.println("================================");
-        screenTitle("LEDGER SCREEN");
-        System.out.println("================================");
+
+        screenTitle("LEDGER SCREEN"); // Title of page
+
         System.out.println(GREEN    +"    [A] — All" + RESET);
         System.out.println(GREEN    +"    [D] — Deposit" + RESET);
         System.out.println(GREEN    +"    [P] — Payment" + RESET);
@@ -124,14 +125,19 @@ public class Main {
             String choice = input.nextLine();
             if (choice.equalsIgnoreCase("A")) {
                 ledgerDisplay("all");
+
             } else if (choice.equalsIgnoreCase("D")) {
                 ledgerDisplay("deposit");
+
             } else if (choice.equalsIgnoreCase("P")) {
                 ledgerDisplay("payment");
+
             } else if (choice.equalsIgnoreCase("R")) {
-                System.out.println("this is report view ");
+                openReport();
+
             } else if (choice.equalsIgnoreCase("H")) {
                 homeScreen();
+
             } else  {
                 System.out.println(RED + "Wrong choice, invalid input" + RESET);
                 openLedger();
@@ -143,7 +149,7 @@ public class Main {
 
     public static void ledgerDisplay(String type) throws IOException {
 
-        tableHeader(); // This will only load the header design for the table
+        tableHeader("LEDGER"); // This will only load the header design for the table
         double netAmount = 0;
         double depositAmount = 0;
         double paymentAmount = 0;
@@ -179,6 +185,109 @@ public class Main {
         openLedger();
     }
 
+    public static void openReport() throws IOException {
+        screenTitle("REPORT SCREEN"); // Title of page
+        System.out.println(GREEN    +"    [1] — Month To Date" + RESET);
+        System.out.println(GREEN    +"    [2] — Previous Month" + RESET);
+        System.out.println(GREEN    +"    [3] — Year To Date" + RESET);
+        System.out.println(GREEN    +"    [4] — Previous Year" + RESET);
+        System.out.println(GREEN    +"    [5] - Search by Vendor"+ RESET);
+        System.out.println(RED      +"    [0] — Back" + RESET);
+        System.out.println("--------------------------------");
+        System.out.print("Choose an option: ");
+
+        try {
+            int choice = input.nextInt(); input.nextLine();
+            if (choice == 1) {
+                LocalDate startOfMonth = LocalDate.now().withDayOfMonth(1);
+                LocalDate currentDateOfMonth = LocalDate.now();
+                filterReportByDate(startOfMonth, currentDateOfMonth);
+
+            } else if (choice == 2) {
+                YearMonth previousMonth = YearMonth.now().minusMonths(1);
+                LocalDate startDate = previousMonth.atDay(1);
+                LocalDate endDate = previousMonth.atEndOfMonth();
+                filterReportByDate(startDate, endDate);
+
+            } else if(choice == 3) {
+                LocalDate startOfYear = LocalDate.now().withDayOfYear(1);
+                LocalDate currentDateOfMonth = LocalDate.now();
+                filterReportByDate(startOfYear, currentDateOfMonth);
+
+            } else if(choice == 4) {
+                YearMonth previousYear = YearMonth.now().minusYears(1);
+                LocalDate startDate = previousYear.atDay(1);
+                LocalDate endDate = Year.now().minusYears(1).atMonth(12).atEndOfMonth();
+                filterReportByDate(startDate, endDate);
+
+            } else if(choice == 5) {
+                filterReportByVendor();
+
+            } else if(choice == 0) {
+                openLedger();
+
+            } else {
+                System.out.println(RED + "Wrong choice, invalid input" + RESET);
+                openReport();
+            }
+
+        } catch (Exception e) {
+            System.out.println(RED + e.getMessage() + RESET);
+        }
+    }
+
+    public static void filterReportByDate(LocalDate startDate, LocalDate endDate) throws IOException {
+
+        tableHeader("REPORT FROM (" + startDate.toString() + " TO (" + endDate.toString() + ") ");
+
+        double netAmount = 0;
+        double depositAmount = 0;
+        double paymentAmount = 0;
+
+        for( Transactions transaction : transactionsList){
+            LocalDate dateToCheck = LocalDate.parse(transaction.getDate());
+
+            if (!dateToCheck.isBefore(startDate) && !dateToCheck.isAfter(endDate)) {
+                netAmount += transaction.getAmount();
+                depositAmount += transaction.getDepsit();
+                paymentAmount += transaction.getPayment();
+
+                System.out.println(transaction.toString());
+            }
+        }
+        System.out.printf("\nTotal deposits: $%,.2f%n", depositAmount);
+        System.out.printf("Total payments: $%,.2f%n", paymentAmount);
+        System.out.printf("Net change: $%,.2f%n", netAmount);
+
+        tableFooter();
+        openReport();
+
+    }
+
+    public static void filterReportByVendor() throws IOException {
+        System.out.println("Please enter the vendor's name:");
+        String Vendor = input.nextLine();
+        double netAmount = 0;
+        double depositAmount = 0;
+        double paymentAmount = 0;
+
+        tableHeader("VENDOR REPORT (" +  Vendor + ")" );
+
+        for(Transactions transaction : transactionsList){
+            if(Vendor.equalsIgnoreCase(transaction.getVendor())){
+                System.out.println(transaction.toString());
+                netAmount += transaction.getAmount();
+                depositAmount += transaction.getDepsit();
+                paymentAmount += transaction.getPayment();
+            }
+        }
+        System.out.printf("\nTotal deposits: $%,.2f%n", depositAmount);
+        System.out.printf("Total payments: $%,.2f%n", paymentAmount);
+        System.out.printf("Net change: $%,.2f%n", netAmount);
+
+        tableFooter();
+        openReport();
+    }
 
     public static void readTransaction() {
         try {
@@ -229,8 +338,8 @@ public class Main {
         System.out.println("================================");
     }
 
-    public static void tableHeader () {
-        System.out.println("============================== LEDGER ======================================================");
+    public static void tableHeader (String title) {
+        System.out.println("============================== " + title + " ======================================================");
         System.out.printf(
                 "%-10s %-10s %-8s %-20s %-14s %14s%n",
                 "Type",
