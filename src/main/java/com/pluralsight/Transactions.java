@@ -62,6 +62,20 @@ public class Transactions {
         this.amount = amount;
     }
 
+    public double getDepsit() {
+        if(this.amount > 0) {
+            return amount;
+        }
+        return 0;
+    }
+
+    public double getPayment() {
+        if(this.amount < 0) {
+            return amount;
+        }
+        return 0;
+    }
+
 
     @Override
     public String toString() {

@@ -4,6 +4,7 @@ import java.io.*;
 import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class Main {
@@ -55,7 +56,7 @@ public class Main {
                 homeScreen();
             }
         }catch (InputMismatchException inputMismatchException){
-            System.out.println("Invalid input. Try again.");
+            System.out.println(RED + "Invalid input. Try again." + RESET);
             homeScreen();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
@@ -108,21 +109,74 @@ public class Main {
     }
 
     public static void openLedger() throws IOException {
-        System.out.println("============================== LEDGER ======================================================");
-        System.out.printf(
-                "%-10s %-10s %-8s %-20s %-14s %14s%n",
-                "Type",
-                "Date",
-                "Time",
-                "Description",
-                "Vendor",
-                "Amount"
-        );
-        System.out.println("--------------------------------------------------------------------------------------------");
-        for(Transactions transaction : transactionsList){
-            System.out.println(transaction.toString());
+        System.out.println("================================");
+        screenTitle("LEDGER SCREEN");
+        System.out.println("================================");
+        System.out.println(GREEN    +"    [A] — All" + RESET);
+        System.out.println(GREEN    +"    [D] — Deposit" + RESET);
+        System.out.println(GREEN    +"    [P] — Payment" + RESET);
+        System.out.println(GREEN    +"    [R] — Report" + RESET);
+        System.out.println(RED      +"    [H] — Home" + RESET);
+        System.out.println("--------------------------------");
+        System.out.print("Choose an option: ");
+
+        try {
+            String choice = input.nextLine();
+            if (choice.equalsIgnoreCase("A")) {
+                ledgerDisplay("all");
+            } else if (choice.equalsIgnoreCase("D")) {
+                ledgerDisplay("deposit");
+            } else if (choice.equalsIgnoreCase("P")) {
+                ledgerDisplay("payment");
+            } else if (choice.equalsIgnoreCase("R")) {
+                System.out.println("this is report view ");
+            } else if (choice.equalsIgnoreCase("H")) {
+                homeScreen();
+            } else  {
+                System.out.println(RED + "Wrong choice, invalid input" + RESET);
+                openLedger();
+            }
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
         }
-        System.out.println("--------------------------------------------------------------------------------------------");
+    }
+
+    public static void ledgerDisplay(String type) throws IOException {
+
+        tableHeader(); // This will only load the header design for the table
+        double netAmount = 0;
+        double depositAmount = 0;
+        double paymentAmount = 0;
+        for(Transactions transaction : transactionsList){
+            if(type.equalsIgnoreCase("all")) {
+                netAmount += transaction.getAmount();
+                depositAmount += transaction.getDepsit();
+                paymentAmount += transaction.getPayment();
+                System.out.println(transaction.toString());
+
+            } else if(type.equalsIgnoreCase("deposit")) {
+                if(transaction.getAmount() > 0){
+                    depositAmount += transaction.getDepsit();
+                    System.out.println(transaction.toString());
+                }
+
+            } else if(type.equalsIgnoreCase("payment")) {
+                if(transaction.getAmount() < 0){
+                    paymentAmount += transaction.getPayment();
+                    System.out.println(transaction.toString());
+                }
+
+            }
+
+        }
+
+        System.out.printf("Total deposits: $%,.2f%n", depositAmount);
+        System.out.printf("Total payments: $%,.2f%n", paymentAmount);
+        System.out.printf("Net change: $%,.2f%n", netAmount);
+
+        tableFooter(); // Will only include the footer for the table.
+
+        openLedger();
     }
 
 
@@ -147,12 +201,16 @@ public class Main {
                 transactionsList.add(transactionRow);
             }
 
+            transactionsList.sort( Comparator.comparing((Transactions transactionsList) ->
+                            LocalDateTime.parse(
+                                    transactionsList.getDate() + "T" + transactionsList.getTime()
+                            ) ).reversed());
+
             br.close();
         }catch (IOException e) {
             System.out.println(e.getMessage());
         }
     }
-
 
     public static void loader() throws InterruptedException {
 
@@ -169,6 +227,24 @@ public class Main {
         System.out.println("================================");
         System.out.println(BLUE + "       " + title +  RESET);
         System.out.println("================================");
+    }
+
+    public static void tableHeader () {
+        System.out.println("============================== LEDGER ======================================================");
+        System.out.printf(
+                "%-10s %-10s %-8s %-20s %-14s %14s%n",
+                "Type",
+                "Date",
+                "Time",
+                "Description",
+                "Vendor",
+                "Amount"
+        );
+
+    }
+
+    public static void tableFooter () {
+        System.out.println("--------------------------------------------------------------------------------------------");
     }
 
 
