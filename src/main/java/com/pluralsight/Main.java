@@ -34,7 +34,7 @@ public class Main {
         System.out.println(GREEN +"    [D] — Add Deposit" + RESET);
         System.out.println(GREEN +"    [P] — Make Payment (Debit)" + RESET);
         System.out.println(GREEN +"    [L] — Open the Ledger" + RESET);
-        System.out.println(RED + "    [X] — Exit" + RESET);
+        System.out.println(RED  + "    [X] — Exit" + RESET);
         System.out.println("--------------------------------");
         System.out.print("Choose an option: ");
 
@@ -194,10 +194,11 @@ public class Main {
         System.out.println(GREEN    +"    [3] — Year To Date" + RESET);
         System.out.println(GREEN    +"    [4] — Previous Year" + RESET);
         System.out.println(GREEN    +"    [5] - Search by Vendor"+ RESET);
+        System.out.println(GREEN    +"    [6] - Custom Search"+ RESET);
         System.out.println(RED      +"    [0] — Back" + RESET);
         System.out.println("--------------------------------");
         System.out.print("Choose an option: ");
-
+        boolean isInputInteger = true;
         try {
             int choice = input.nextInt(); input.nextLine();
             if (choice == 1) {
@@ -225,19 +226,25 @@ public class Main {
             } else if(choice == 5) {
                 Reports.filterReportByVendor();
 
+            } else if (choice == 6) {
+                Search.main(null);
+
             } else if(choice == 0) {
                 openLedger();
-
             } else {
                 System.out.println(RED + "Wrong choice, invalid input" + RESET);
                 openReport();
             }
 
-        } catch (Exception e) {
-            System.out.println(RED + e.getMessage() + RESET);
+        } catch (InputMismatchException e) {
+            input.nextLine(); // discard the invalid text
+            System.out.println(Main.RED + "Please enter a valid option!" + Main.RESET);
+            isInputInteger = false;
         }
 
-        loader();
+        if (!isInputInteger) {
+            openReport();
+        }
     }
 
     public static void readTransaction() {
@@ -290,7 +297,7 @@ public class Main {
     }
 
     public static void tableHeader (String title) {
-        System.out.println("============================== " + title + " ======================================================");
+        System.out.println("============================== " + title + " =====================================");
         System.out.printf(
                 "%-10s %-10s %-8s %-20s %-14s %14s%n",
                 "Type",
@@ -302,6 +309,7 @@ public class Main {
         );
 
     }
+
 
     public static void tableFooter () {
         System.out.println("--------------------------------------------------------------------------------------------");
