@@ -6,19 +6,17 @@ import java.util.Date;
 
 public class Transactions {
     private String date;
-    private String Time;
+    private String time;
     private String description;
     private String vendor;
     private double amount;
-    private String transactionType;
 
-    public Transactions(String date, String time, String description, String vendor, double amount,  String transactionType) {
+    public Transactions(String date, String time, String description, String vendor, double amount) {
         this.date = date;
-        Time = time;
+        this.time = time;
         this.description = description;
         this.vendor = vendor;
         this.amount = amount;
-        this.transactionType = transactionType;
     }
 
     public Transactions() {
@@ -33,11 +31,11 @@ public class Transactions {
     }
 
     public String getTime() {
-        return Time;
+        return time;
     }
 
     public void setTime(String time) {
-        Time = time;
+        this.time = time;
     }
 
     public String getDescription() {
@@ -64,11 +62,38 @@ public class Transactions {
         this.amount = amount;
     }
 
-    public String getTransactionType() {
-        return transactionType;
+    public double getDepsit() {
+        if(this.amount > 0) {
+            return amount;
+        }
+        return 0;
     }
 
-    public void setTransactionType(String transactionType) {
-        this.transactionType = transactionType;
+    public double getPayment() {
+        if(this.amount < 0) {
+            return amount;
+        }
+        return 0;
     }
+
+
+    @Override
+    public String toString() {
+        String type = amount >= 0 ? "Deposit" : "Payment";
+
+        String amountDisplay = amount < 0
+                ? String.format("-$%,.2f", Math.abs(amount))
+                : String.format("$%,.2f", amount);
+
+        return String.format(
+                "%-10s %-10s %-8s %-20.20s %-14.14s %14s",
+                type,
+                date,
+                time,
+                description,
+                vendor,
+                amountDisplay
+        );
+    }
+
 }
