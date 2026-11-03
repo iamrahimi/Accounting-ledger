@@ -11,14 +11,14 @@ import java.time.YearMonth;
 import java.util.*;
 
 public class Main {
-    private static final Scanner input = new Scanner(System.in);
+    public static final Scanner input = new Scanner(System.in);
     static final String RESET = "\u001B[0m"; //
     static final String RED = "\u001B[31m";
     static final String GREEN = "\u001B[32m";
     static final String BLUE = "\u001B[34m";
 
-    private static ArrayList<Transactions> transactionsList = new ArrayList<>();
-    private static final String fileSrc = "uploads/transactions.csv";
+    public static ArrayList<Transactions> transactionsList = new ArrayList<>();
+    public static final String fileSrc = "uploads/transactions.csv";
 
     public static void main(String[] args) {
         System.out.println("Welcome to Accounting ledger application");
@@ -109,7 +109,7 @@ public class Main {
         homeScreen();
     }
 
-    public static void openLedger() throws IOException {
+    public static void openLedger() throws IOException, InterruptedException {
 
         screenTitle("LEDGER SCREEN"); // Title of page
 
@@ -145,9 +145,11 @@ public class Main {
         }catch (Exception e) {
             System.out.println(e.getMessage());
         }
+
+        loader();
     }
 
-    public static void ledgerDisplay(String type) throws IOException {
+    public static void ledgerDisplay(String type) throws IOException, InterruptedException {
 
         tableHeader("LEDGER"); // This will only load the header design for the table
         double netAmount = 0;
@@ -185,7 +187,7 @@ public class Main {
         openLedger();
     }
 
-    public static void openReport() throws IOException {
+    public static void openReport() throws IOException, InterruptedException {
         screenTitle("REPORT SCREEN"); // Title of page
         System.out.println(GREEN    +"    [1] — Month To Date" + RESET);
         System.out.println(GREEN    +"    [2] — Previous Month" + RESET);
@@ -201,27 +203,27 @@ public class Main {
             if (choice == 1) {
                 LocalDate startOfMonth = LocalDate.now().withDayOfMonth(1);
                 LocalDate currentDateOfMonth = LocalDate.now();
-                filterReportByDate(startOfMonth, currentDateOfMonth);
+               Reports.filterReportByDate(startOfMonth, currentDateOfMonth);
 
             } else if (choice == 2) {
                 YearMonth previousMonth = YearMonth.now().minusMonths(1);
                 LocalDate startDate = previousMonth.atDay(1);
                 LocalDate endDate = previousMonth.atEndOfMonth();
-                filterReportByDate(startDate, endDate);
+                Reports.filterReportByDate(startDate, endDate);
 
             } else if(choice == 3) {
                 LocalDate startOfYear = LocalDate.now().withDayOfYear(1);
                 LocalDate currentDateOfMonth = LocalDate.now();
-                filterReportByDate(startOfYear, currentDateOfMonth);
+                Reports.filterReportByDate(startOfYear, currentDateOfMonth);
 
             } else if(choice == 4) {
                 YearMonth previousYear = YearMonth.now().minusYears(1);
                 LocalDate startDate = previousYear.atDay(1);
                 LocalDate endDate = Year.now().minusYears(1).atMonth(12).atEndOfMonth();
-                filterReportByDate(startDate, endDate);
+                Reports.filterReportByDate(startDate, endDate);
 
             } else if(choice == 5) {
-                filterReportByVendor();
+                Reports.filterReportByVendor();
 
             } else if(choice == 0) {
                 openLedger();
@@ -234,59 +236,8 @@ public class Main {
         } catch (Exception e) {
             System.out.println(RED + e.getMessage() + RESET);
         }
-    }
 
-    public static void filterReportByDate(LocalDate startDate, LocalDate endDate) throws IOException {
-
-        tableHeader("REPORT FROM (" + startDate.toString() + " TO (" + endDate.toString() + ") ");
-
-        double netAmount = 0;
-        double depositAmount = 0;
-        double paymentAmount = 0;
-
-        for( Transactions transaction : transactionsList){
-            LocalDate dateToCheck = LocalDate.parse(transaction.getDate());
-
-            if (!dateToCheck.isBefore(startDate) && !dateToCheck.isAfter(endDate)) {
-                netAmount += transaction.getAmount();
-                depositAmount += transaction.getDepsit();
-                paymentAmount += transaction.getPayment();
-
-                System.out.println(transaction.toString());
-            }
-        }
-        System.out.printf("\nTotal deposits: $%,.2f%n", depositAmount);
-        System.out.printf("Total payments: $%,.2f%n", paymentAmount);
-        System.out.printf("Net change: $%,.2f%n", netAmount);
-
-        tableFooter();
-        openReport();
-
-    }
-
-    public static void filterReportByVendor() throws IOException {
-        System.out.println("Please enter the vendor's name:");
-        String Vendor = input.nextLine();
-        double netAmount = 0;
-        double depositAmount = 0;
-        double paymentAmount = 0;
-
-        tableHeader("VENDOR REPORT (" +  Vendor + ")" );
-
-        for(Transactions transaction : transactionsList){
-            if(Vendor.equalsIgnoreCase(transaction.getVendor())){
-                System.out.println(transaction.toString());
-                netAmount += transaction.getAmount();
-                depositAmount += transaction.getDepsit();
-                paymentAmount += transaction.getPayment();
-            }
-        }
-        System.out.printf("\nTotal deposits: $%,.2f%n", depositAmount);
-        System.out.printf("Total payments: $%,.2f%n", paymentAmount);
-        System.out.printf("Net change: $%,.2f%n", netAmount);
-
-        tableFooter();
-        openReport();
+        loader();
     }
 
     public static void readTransaction() {
