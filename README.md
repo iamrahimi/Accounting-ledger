@@ -111,13 +111,6 @@ Descriptions and vendor names should not contain the `|` character because it se
 - Optional custom search with any combination of start date, end date, description, vendor, and amount
 
 
-## Future improvements
-
-- Validate dates, times, and amounts entered by the user.
-- Handle malformed transaction rows gracefully.
-- Add the optional custom search feature.
-- Improve the CLI layout and error messages.
-
   ## Notes
 
 - The transaction file is plain text and is stored locally in the project folder.
