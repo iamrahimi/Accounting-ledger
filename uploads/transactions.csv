@@ -31,3 +31,5 @@ date|time|description|vendor|amount
 2026-02-10|17:25:00|Electric bill|Seattle City Light|-76.34
 2026-03-11|11:55:00|Book purchase|Barnes & Noble|-24.95
 2026-11-04|09:21:09|Test Deposit|YUU|30.2
+2026-11-04|10:54:30|GUI testing|GUI Vendor|90.0
+2026-11-04|10:54:55|GUI Payment|GUI|-10.0
