@@ -11,12 +11,12 @@ public class Search {
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
-        Main.screenTitle("SEARCH (Custom) "); // Title of page
-        System.out.println(Main.GREEN    +"    [1] — By description" + Main.RESET);
-        System.out.println(Main.GREEN    +"    [2] — By Vendor" + Main.RESET);
-        System.out.println(Main.GREEN    +"    [3] — By date" + Main.RESET);
-        System.out.println(Main.GREEN    +"    [4] — By amount" + Main.RESET);
-        System.out.println(Main.RED      +"    [0] — Back" + Main.RESET);
+        Main.screenTitle("SEARCH (Custom) "); // Method for the title of page, is located in Main class
+        Main.menuTitleGreen("[1] — By description"); // Method for title of menu,is located in Main class
+        Main.menuTitleGreen("[2] — By Vendor");
+        Main.menuTitleGreen("[3] — By date");
+        Main.menuTitleGreen("[4] — By amount");
+        Main.menuTitleRed("[0] — Back");
         System.out.println("--------------------------------");
         System.out.print("Choose an option: ");
 
@@ -26,14 +26,16 @@ public class Search {
 
             switch (chioce) {
                 case 0:
-                    Main.openReport();
+                    Reports.openReport();
                     break;
                 case 1:
                     searchByDescription();
+                    main(null);
                     break;
 
                 case 2:
                     Reports.filterReportByVendor();
+                    main(null);
                     break;
 
                 case 3:
@@ -45,10 +47,12 @@ public class Search {
                     LocalDate startOfDate = LocalDate.parse(startDate);
                     LocalDate endOfDate = LocalDate.parse(endDate);
                     Reports.filterReportByDate(startOfDate, endOfDate);
+                    main(null);
                     break;
 
                 case 4:
                     searchByAmount();
+                    main(null);
                     break;
 
                 default:
@@ -59,7 +63,7 @@ public class Search {
 
         }  catch (InputMismatchException e) {
             input.nextLine(); // discard the invalid text
-            System.out.println(Main.RED + "Please enter a valid option!" + Main.RESET);
+            Main.menuTitleRed("Please enter a valid option!");
             isInputInteger = false;
         }
 
