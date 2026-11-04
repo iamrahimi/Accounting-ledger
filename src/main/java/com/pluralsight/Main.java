@@ -1,24 +1,17 @@
 package com.pluralsight;
 
 import java.io.*;
-import java.sql.Time;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Year;
-import java.time.YearMonth;
 import java.util.*;
 
 public class Main {
     public static final Scanner input = new Scanner(System.in);
-    static final String RESET = "\u001B[0m"; //
-    static final String RED = "\u001B[31m";
-    static final String GREEN = "\u001B[32m";
-    static final String BLUE = "\u001B[34m";
-
     public static ArrayList<Transactions> transactionsList = new ArrayList<>();
     public static final String fileSrc = "uploads/transactions.csv";
+
+    static final String BLUE = "\u001B[34m";
+    static final String RESET = "\u001B[0m";
 
     public static void main(String[] args) {
         System.out.println("Welcome to Accounting ledger application");
@@ -28,40 +21,45 @@ public class Main {
 
     public static void homeScreen() {
         transactionsList.clear();
-        readTransaction(); // Copy all the transaction data to arrayList to operate with
+        readTransaction(); // Copy all the transaction.csv data to arrayList to operate with
         screenTitle("HOME SCREEN"); // Only for title of page
-
-        System.out.println(GREEN +"    [D] — Add Deposit" + RESET);
-        System.out.println(GREEN +"    [P] — Make Payment (Debit)" + RESET);
-        System.out.println(GREEN +"    [L] — Open the Ledger" + RESET);
-        System.out.println(RED  + "    [X] — Exit" + RESET);
+        menuTitleGreen("[A] — All");
+        menuTitleGreen("[D] — Add Deposit");
+        menuTitleGreen("[P] — Make Payment (Debit)");
+        menuTitleGreen("[L] — Open the Ledger");
+        menuTitleRed("[X] — Exit");
         System.out.println("--------------------------------");
         System.out.print("Choose an option: ");
 
         try {
             String choice = input.nextLine();
-            if (choice.equalsIgnoreCase("D")) {
-                loader();
+            loader();
+            if (choice.equalsIgnoreCase("A")) {
+                ledgerDisplay("all");
+
+            } else if (choice.equalsIgnoreCase("D")) {
                 addTransaction("deposit");
-            } else if (choice.equalsIgnoreCase("P")) {
-                loader();
+
+            }else if (choice.equalsIgnoreCase("P")) {
                 addTransaction("payment");
+
             } else if (choice.equalsIgnoreCase("L")) {
-                loader();
                 openLedger();
+
             } else if (choice.equalsIgnoreCase("X")) {
                 System.out.println("Thank you for using Accounting Ledger Application");
                 System.out.println("Good bye");
+                System.exit(0);
+
             } else {
-                System.out.println("Wrong choice, invalid input");
+                menuTitleRed("Invalid input. Try again.");
                 homeScreen();
             }
         }catch (InputMismatchException inputMismatchException){
-            System.out.println(RED + "Invalid input. Try again." + RESET);
+            menuTitleRed("Invalid input. Try again.");
             homeScreen();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
+
+        } catch (InterruptedException | IOException e) {
             throw new RuntimeException(e);
         }
 
@@ -99,7 +97,7 @@ public class Main {
                 System.out.println("Transaction successfully.\n");
                 bw.close();
             }else {
-                System.out.println("All fields are required, cannot be empty");
+                menuTitleRed("All fields are required, cannot be empty");
             }
 
         }catch (IOException e) {
@@ -112,12 +110,11 @@ public class Main {
     public static void openLedger() throws IOException, InterruptedException {
 
         screenTitle("LEDGER SCREEN"); // Title of page
-
-        System.out.println(GREEN    +"    [A] — All" + RESET);
-        System.out.println(GREEN    +"    [D] — Deposit" + RESET);
-        System.out.println(GREEN    +"    [P] — Payment" + RESET);
-        System.out.println(GREEN    +"    [R] — Report" + RESET);
-        System.out.println(RED      +"    [H] — Home" + RESET);
+        menuTitleGreen("[A] — All");
+        menuTitleGreen("[D] — Deposit");
+        menuTitleGreen("[P] — Payment");
+        menuTitleGreen("[R] — Report");
+        menuTitleRed("[H] — Home");
         System.out.println("--------------------------------");
         System.out.print("Choose an option: ");
 
@@ -133,20 +130,19 @@ public class Main {
                 ledgerDisplay("payment");
 
             } else if (choice.equalsIgnoreCase("R")) {
-                openReport();
+                Reports.openReport();
 
             } else if (choice.equalsIgnoreCase("H")) {
                 homeScreen();
 
             } else  {
-                System.out.println(RED + "Wrong choice, invalid input" + RESET);
+                menuTitleRed("Wrong choice, invalid input");
                 openLedger();
             }
         }catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
-        loader();
     }
 
     public static void ledgerDisplay(String type) throws IOException, InterruptedException {
@@ -187,71 +183,10 @@ public class Main {
         openLedger();
     }
 
-    public static void openReport() throws IOException, InterruptedException {
-        screenTitle("REPORT SCREEN"); // Title of page
-        System.out.println(GREEN    +"    [1] — Month To Date" + RESET);
-        System.out.println(GREEN    +"    [2] — Previous Month" + RESET);
-        System.out.println(GREEN    +"    [3] — Year To Date" + RESET);
-        System.out.println(GREEN    +"    [4] — Previous Year" + RESET);
-        System.out.println(GREEN    +"    [5] - Search by Vendor"+ RESET);
-        System.out.println(GREEN    +"    [6] - Custom Search"+ RESET);
-        System.out.println(RED      +"    [0] — Back" + RESET);
-        System.out.println("--------------------------------");
-        System.out.print("Choose an option: ");
-        boolean isInputInteger = true;
-        try {
-            int choice = input.nextInt(); input.nextLine();
-            if (choice == 1) {
-                LocalDate startOfMonth = LocalDate.now().withDayOfMonth(1);
-                LocalDate currentDateOfMonth = LocalDate.now();
-               Reports.filterReportByDate(startOfMonth, currentDateOfMonth);
-
-            } else if (choice == 2) {
-                YearMonth previousMonth = YearMonth.now().minusMonths(1);
-                LocalDate startDate = previousMonth.atDay(1);
-                LocalDate endDate = previousMonth.atEndOfMonth();
-                Reports.filterReportByDate(startDate, endDate);
-
-            } else if(choice == 3) {
-                LocalDate startOfYear = LocalDate.now().withDayOfYear(1);
-                LocalDate currentDateOfMonth = LocalDate.now();
-                Reports.filterReportByDate(startOfYear, currentDateOfMonth);
-
-            } else if(choice == 4) {
-                YearMonth previousYear = YearMonth.now().minusYears(1);
-                LocalDate startDate = previousYear.atDay(1);
-                LocalDate endDate = Year.now().minusYears(1).atMonth(12).atEndOfMonth();
-                Reports.filterReportByDate(startDate, endDate);
-
-            } else if(choice == 5) {
-                Reports.filterReportByVendor();
-
-            } else if (choice == 6) {
-                Search.main(null);
-
-            } else if(choice == 0) {
-                openLedger();
-            } else {
-                System.out.println(RED + "Wrong choice, invalid input" + RESET);
-                openReport();
-            }
-
-        } catch (InputMismatchException e) {
-            input.nextLine(); // discard the invalid text
-            System.out.println(Main.RED + "Please enter a valid option!" + Main.RESET);
-            isInputInteger = false;
-        }
-
-        if (!isInputInteger) {
-            openReport();
-        }
-    }
-
     public static void readTransaction() {
         try {
             // br = bufferedReader
             BufferedReader br = new BufferedReader(new FileReader(fileSrc));
-            br.readLine();
 
             String transaction = br.readLine();
             while((transaction = br.readLine()) != null) {
@@ -290,7 +225,7 @@ public class Main {
         System.out.println("\n");
     }
 
-    public static void   screenTitle(String title) {
+    public static void screenTitle(String title) {
         System.out.println("================================");
         System.out.println(BLUE + "       " + title +  RESET);
         System.out.println("================================");
@@ -310,6 +245,17 @@ public class Main {
 
     }
 
+    public static void menuTitleGreen(String title) {
+        final String GREEN = "\u001B[32m";
+
+        System.out.println(GREEN +"    " + title + RESET);
+    }
+
+    public static void menuTitleRed(String title) {
+        final String RED = "\u001B[31m";
+
+        System.out.println(RED +"    " + title + RESET);
+    }
 
     public static void tableFooter () {
         System.out.println("--------------------------------------------------------------------------------------------");
