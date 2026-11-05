@@ -93,5 +93,4 @@ Descriptions and vendor names should not contain the `|` character because it se
 - The transaction file is plain text and is stored locally in the project folder.
 - The CLI and GUI are separate entry points. Run `Main` for the CLI or `gui/LedgerGUI` for the desktop app.
 - Both interfaces write to the same file, so use **Refresh** in the GUI to reload changes made while it is open in another program.
-=======
 
