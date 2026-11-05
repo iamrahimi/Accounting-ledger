@@ -23,7 +23,7 @@ public class Main {
         transactionsList.clear();
         readTransaction(); // Copy all the transaction.csv data to arrayList to operate with
         screenTitle("HOME SCREEN"); // Only for title of page
-        menuTitleGreen("[A] — All");
+        menuTitleGreen("[A] — Show all transactions");
         menuTitleGreen("[D] — Add Deposit");
         menuTitleGreen("[P] — Make Payment (Debit)");
         menuTitleGreen("[L] — Open the Ledger");
@@ -110,10 +110,10 @@ public class Main {
     public static void openLedger() throws IOException, InterruptedException {
 
         screenTitle("LEDGER SCREEN"); // Title of page
-        menuTitleGreen("[A] — All");
-        menuTitleGreen("[D] — Deposit");
-        menuTitleGreen("[P] — Payment");
-        menuTitleGreen("[R] — Report");
+        menuTitleGreen("[A] — Show all transactions");
+        menuTitleGreen("[D] — Show Deposit");
+        menuTitleGreen("[P] — Show Payment");
+        menuTitleGreen("[R] — Open Report");
         menuTitleRed("[H] — Home");
         System.out.println("--------------------------------");
         System.out.print("Choose an option: ");

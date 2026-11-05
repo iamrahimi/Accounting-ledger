@@ -6,11 +6,13 @@ A small Java accounting ledger with two ways to use it: a command-line interface
 
 ### CLI
 
+
 - View all transactions, deposits, or payments.
 - Add deposits and record payments.
 - View totals for deposits, payments, and net change.
 - Run reports for month to date, previous month, year to date, previous year, and a vendor.
 - Search by description, vendor, date range, or amount range.
+
 
 ### GUI
 
@@ -42,8 +44,6 @@ src/main/java/com/pluralsight/
 ```
 
 If your IntelliJ project uses `src` instead of `src/main/java`, put the files together in `src/com/pluralsight/`.
-
-## Run the application
 
 ## Run the CLI
 
@@ -87,33 +87,52 @@ The first line is the header. The CLI reader skips the first line, so keep the h
 
 Descriptions and vendor names should not contain the `|` character because it separates the fields.
 
-## Project screens
+## Run the CLI
 
-### Home Screen
+In IntelliJ, open `Main.java` and run its `main` method. From a terminal, if your files are under `src/main/java`, run these commands from the project root:
 
-- `D` — Add Deposit
-- `P` — Make Payment (Debit)
-- `L` — Open the Ledger
-- `X` — Exit
+```bash
+mkdir -p out
+javac -d out src/main/java/com/pluralsight/*.java
+java -cp out com.pluralsight.Main
+```
 
-### Ledger
+The home menu offers **All**, **Add Deposit**, **Make Payment**, **Open the Ledger**, and **Exit**. From the ledger menu, open reports and custom searches.
 
-- `A` — Show all transactions
-- `D` — Show deposits
-- `P` — Show payments
-- `R` — Open Reports
-- `H` — Return Home
+## Run the GUI
 
-### Reports
+In IntelliJ, open `LedgerGUI.java` and run its `main` method. From a terminal, compile as above, then run:
 
-- Month to date, previous month, year to date, and previous year
-- Search by vendor
-- Optional custom search with any combination of start date, end date, description, vendor, and amount
+```bash
+java -cp out com.pluralsight.gui.LedgerGUI
+```
 
+Run the GUI from the project root so it can find the `uploads` folder.
 
-  ## Notes
+## Transaction file
+
+Both interfaces use this file path, relative to the project root:
+
+```text
+uploads/transactions.csv
+```
+
+Each transaction has five fields separated by `|`:
+
+```text
+Date|Time|Description|Vendor|Amount
+2026-11-01|16:20:00|Groceries|Safeway|-63.48
+2026-11-02|10:05:00|Refund|Target|18.99
+```
+
+The first line is the header. The CLI reader skips the first line, so keep the header in place. The GUI creates the file and header when you add the first transaction. Deposits use positive amounts; payments use negative amounts. When entering an amount in either interface, enter a positive value—the payment action records it as negative.
+
+Descriptions and vendor names should not contain the `|` character because it separates the fields.
+
+## Notes
 
 - The transaction file is plain text and is stored locally in the project folder.
 - The CLI and GUI are separate entry points. Run `Main` for the CLI or `gui/LedgerGUI` for the desktop app.
 - Both interfaces write to the same file, so use **Refresh** in the GUI to reload changes made while it is open in another program.
+=======
 
