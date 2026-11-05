@@ -34,8 +34,8 @@ A small Java accounting ledger with two ways to use it: a command-line interface
 - `2` — Previous Month
 - `3` — Year to date
 - `4` — Previous year
-- `4` — Search by Vendor
-- `5` — Custom Search
+- `5` — Search by Vendor
+- `6` — Custom Search
 - `0` — Back
 
 
