@@ -1,4 +1,7 @@
-package com.pluralsight;
+package com.pluralsight.gui;
+
+import com.pluralsight.Main;
+import com.pluralsight.Transactions;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -49,7 +52,7 @@ public class LedgerGUI extends JFrame {
     private LocalDate reportEnd;
 
     public LedgerGUI() {
-        super("Accounting Ledger");
+        super("Clear Ledger");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(920, 600));
         setSize(1100, 700);
