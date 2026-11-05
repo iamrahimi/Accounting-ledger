@@ -97,6 +97,7 @@ public class LedgerGUI extends JFrame {
         actions.setOpaque(false);
         JButton deposit = styledButton("＋  Add deposit", new Color(35, 150, 106), Color.WHITE);
         JButton payment = styledButton("−  Make payment", new Color(35, 150, 106), Color.WHITE);
+
         deposit.addActionListener(e -> showTransactionDialog(true));
         payment.addActionListener(e -> showTransactionDialog(false));
         actions.add(deposit);
