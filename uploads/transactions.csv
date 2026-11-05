@@ -1,37 +1,12 @@
 date|time|description|vendor|amount
-2025-10-29|08:15:00|Coffee|Starbucks|-5.75
-2025-10-30|12:40:00|Lunch|Cafe Rio|-14.25
-2025-10-31|09:00:00|Paycheck|Employer|1250.00
 2026-11-01|16:20:00|Groceries|Safeway|-63.48
+2026-11-02|09:00:00|Paycheck|Allied Universal|1800.00
 2026-11-02|10:05:00|Refund|Target|18.99
-2026-11-02|13:23:08|Invoice 1001 paid|Target|1500.0
-2026-11-02|13:27:14|i am testing|this is deposit|89.2
-2026-11-02|13:27:34|this is payment testing|payment for testing vendor |390.0
-2026-11-02|13:41:24|payment that should workd|testing |-34.0
-2026-11-02|13:41:56|despoit|teting|902.3
-2026-04-01|16:20:00|Groceries|Safeway|-89.48
-2026-11-01|16:20:00|Groceries|Safeway|-63.48
-2026-11-02|10:05:00|Refund|Target|18.99
-2026-11-02|13:23:08|Invoice payment|Client A|1500.00
-2026-07-03|08:15:00|Coffee|Starbucks|-5.75
-2026-09-03|12:40:00|Lunch|Chipotle|-14.25
-2026-03-04|09:30:00|Gas|Shell|-48.60
-2026-07-04|15:10:00|Freelance payment|Client B|425.00
-2026-08-05|11:25:00|Pharmacy|CVS|-22.37
-2026-09-05|18:45:00|Dinner|Olive Garden|-36.80
-2026-03-06|07:50:00|Bus fare|King County Metro|-2.75
-2026-03-06|14:15:00|Online order|Amazon|-29.99
-2026-07-07|10:00:00|Paycheck|Allied Universal|572.00
-2026-08-07|16:35:00|Household supplies|Walmart|-41.62
-2026-09-08|12:20:00|Groceries|QFC|-52.18
-2026-10-08|19:05:00|Movie tickets|AMC Theatres|-27.50
-2026-10-09|09:45:00|Car wash|Brown Bear Car Wash|-18.00
-2026-05-09|13:30:00|Cashback reward|Chase|12.50
-2026-04-10|08:10:00|Breakfast|McDonald's|-8.42
-2026-02-10|17:25:00|Electric bill|Seattle City Light|-76.34
-2026-03-11|11:55:00|Book purchase|Barnes & Noble|-24.95
-2026-11-04|09:21:09|Test Deposit|YUU|30.2
-2026-11-04|10:54:30|GUI testing|GUI Vendor|90.0
-2026-11-04|10:54:55|GUI Payment|GUI|-10.0
-2026-11-04|11:26:18|Testing Desposit|YUU|100.0
-2026-11-04|11:26:44|Test Payment|YUU|-10.0
+2026-11-03|08:15:00|Coffee|Starbucks|-5.75
+2026-11-04|17:30:00|Gas|Shell|-48.60
+2026-11-05|12:00:00|Internet bill|Xfinity|-65.00
+2026-11-06|14:25:00|Freelance payment|Client A|450.00
+2026-11-07|11:10:00|Pharmacy|CVS|-22.37
+2026-11-08|18:45:00|Electric bill|Seattle City Light|-76.34
+2026-11-09|08:00:00|Savings interest|BECU|1.25
+2026-11-05|11:40:29|testing|testing|90.0
