@@ -109,7 +109,6 @@ Date|Time|Description|Vendor|Amount
 ```
 
 The first line is the header. The CLI reader skips the first line, so keep the header in place. The GUI creates the file and header when you add the first transaction. Deposits use positive amounts; payments use negative amounts. When entering an amount in either interface, enter a positive value—the payment action records it as negative.
-
 Descriptions and vendor names should not contain the `|` character because it separates the fields.
 
 ## Notes
@@ -117,3 +116,4 @@ Descriptions and vendor names should not contain the `|` character because it se
 - The transaction file is plain text and is stored locally in the project folder.
 - The CLI and GUI are separate entry points. Run `Main` for the CLI or `gui/LedgerGUI` for the desktop app.
 - Both interfaces write to the same file, so use **Refresh** in the GUI to reload changes made while it is open in another program.
+
