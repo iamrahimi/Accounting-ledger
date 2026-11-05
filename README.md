@@ -1,4 +1,4 @@
-# Accounting Ledger
+# Clear Ledger
 
 A small Java accounting ledger with two ways to use it: a command-line interface (CLI) and a desktop graphical interface (GUI). Both versions use the same pipe-delimited transaction file.
 
