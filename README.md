@@ -12,6 +12,33 @@ A small Java accounting ledger with two ways to use it: a command-line interface
 - Run reports for month to date, previous month, year to date, previous year, and a vendor.
 - Search by description, vendor, date range, or amount range.
 
+## Project screens
+
+### Home Screen
+- `A` — Show all transactions
+- `D` — Add Deposit
+- `P` — Make Payment (Debit)
+- `L` — Open the Ledger
+- `X` — Exit
+
+### Ledger screen
+
+- `A` — Show all transactions
+- `D` — Show deposits
+- `P` — Show payments
+- `R` — Open Reports
+- `H` — Return Home
+
+### Reports Screen
+- `1` — Month To Date
+- `2` — Previous Month
+- `3` — Year to date
+- `4` — Previous year
+- `4` — Search by Vendor
+- `5` — Custom Search
+- `0` — Back
+
+
 ### GUI
 
 - Add deposits and payments through a form.
