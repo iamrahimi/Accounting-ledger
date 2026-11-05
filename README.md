@@ -67,9 +67,6 @@ src/main/java/com/pluralsight/
 ├── Search.java
 └── gui/LedgerGUI.java
 ```
-
-If your IntelliJ project uses `src` instead of `src/main/java`, put the files together in `src/com/pluralsight/`.
-
 ## Run the CLI
 
 In IntelliJ, open `Main.java` and run its `main` method. From a terminal, if your files are under `src/main/java`, run these commands from the project root:
