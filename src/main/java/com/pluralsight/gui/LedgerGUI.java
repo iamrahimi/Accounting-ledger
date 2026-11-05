@@ -83,7 +83,7 @@ public class LedgerGUI extends JFrame {
         JPanel titleBlock = new JPanel();
         titleBlock.setOpaque(false);
         titleBlock.setLayout(new BoxLayout(titleBlock, BoxLayout.Y_AXIS));
-        JLabel title = new JLabel("Accounting Ledger");
+        JLabel title = new JLabel("Clear Ledger");
         title.setForeground(Color.WHITE);
         title.setFont(new Font("SansSerif", Font.BOLD, 25));
         JLabel subtitle = new JLabel("Track deposits and payments in one place");

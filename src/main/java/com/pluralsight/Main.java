@@ -14,12 +14,13 @@ public class Main {
     static final String RESET = "\u001B[0m";
 
     public static void main(String[] args) {
-        System.out.println("Welcome to Accounting ledger application");
+        welcomeScreen();
         homeScreen();
 
     }
 
     public static void homeScreen() {
+
         transactionsList.clear();
         readTransaction(); // Copy all the transaction.csv data to arrayList to operate with
         screenTitle("HOME SCREEN"); // Only for title of page
@@ -259,6 +260,27 @@ public class Main {
 
     public static void tableFooter () {
         System.out.println("--------------------------------------------------------------------------------------------");
+    }
+
+    private static void welcomeScreen() {
+        int width = 58;
+        String border = "═".repeat(width);
+
+        System.out.println(BLUE + "╔" + border + "╗" + RESET);
+        System.out.println(BLUE + "║" + centerText("CLEAR LEDGER", width) + "║" + RESET);
+        System.out.println(BLUE + "║" + centerText("Your money, clearly organized.", width) + "║" + RESET);
+        System.out.println(BLUE + "╠" + border + "╣" + RESET);
+        System.out.println(BLUE + "║" + centerText("Track deposits, payments, and reports.", width) + "║" + RESET);
+        System.out.println(BLUE + "║" + centerText("Welcome! Let's get started.", width) + "║" + RESET);
+        System.out.println(BLUE + "╚" + border + "╝" + RESET);
+        System.out.println();
+    }
+
+    private static String centerText(String text, int width) {
+        int leftPadding = (width - text.length()) / 2;
+        int rightPadding = width - text.length() - leftPadding;
+
+        return " ".repeat(leftPadding) + text + " ".repeat(rightPadding);
     }
 
 
