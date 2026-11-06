@@ -35,19 +35,19 @@ public class Reports {
                 YearMonth previousMonth = YearMonth.now().minusMonths(1);
                 LocalDate startDate = previousMonth.atDay(1);
                 LocalDate endDate = previousMonth.atEndOfMonth();
-                Reports.filterReportByDate(startDate, endDate);
+                filterReportByDate(startDate, endDate);
 
             } else if(choice == 3) {
                 LocalDate startOfYear = LocalDate.now().withDayOfYear(1);
                 LocalDate currentDateOfMonth = LocalDate.now();
-                Reports.filterReportByDate(startOfYear, currentDateOfMonth);
+                filterReportByDate(startOfYear, currentDateOfMonth);
 
             } else if(choice == 4) {
                 YearMonth previousYear = YearMonth.now().minusYears(1).withMonth(1);
                 LocalDate startOfPreviousYear = previousYear.atDay(1);
                 LocalDate startDate = previousYear.atDay(1);
                 LocalDate endDate = Year.now().minusYears(1).atMonth(12).atEndOfMonth();
-                Reports.filterReportByDate(startOfPreviousYear, endDate);
+                filterReportByDate(startOfPreviousYear, endDate);
 
             } else if(choice == 5) {
                 Reports.filterReportByVendor();

@@ -175,7 +175,7 @@ public class Main {
 
         }
 
-        System.out.printf("Total deposits: $%,.2f%n", depositAmount);
+        System.out.printf("\nTotal deposits: $%,.2f%n", depositAmount);
         System.out.printf("Total payments: $%,.2f%n", paymentAmount);
         System.out.printf("Net change: $%,.2f%n", netAmount);
 
@@ -192,16 +192,18 @@ public class Main {
             String transaction = br.readLine();
             while((transaction = br.readLine()) != null) {
                 String[] row = transaction.split("\\|");
+                if(row.length == 5) {
+                    Transactions transactionRow = new Transactions(
+                            row[0], // Date
+                            row[1], // Time
+                            row[2], // Description
+                            row[3], // Vendor
+                            Double.parseDouble(row[4]) // Amount
+                    );
 
-                Transactions transactionRow = new Transactions(
-                        row[0], // Date
-                        row[1], // Time
-                        row[2], // Description
-                        row[3], // Vendor
-                        Double.parseDouble(row[4]) // Amount
-                );
+                    transactionsList.add(transactionRow);
+                }
 
-                transactionsList.add(transactionRow);
             }
 
             transactionsList.sort( Comparator.comparing((Transactions transactionsList) ->
